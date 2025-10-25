@@ -1,8 +1,10 @@
 import { ExternalLink, TrendingUp } from 'lucide-react';
+import { motion } from 'motion/react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
 interface CasesPageProps {
   language: string;
+  onCaseClick: (caseId: number) => void;
 }
 
 const translations = {
@@ -29,11 +31,12 @@ const translations = {
   },
 };
 
-export default function CasesPage({ language }: CasesPageProps) {
+export default function CasesPage({ language, onCaseClick }: CasesPageProps) {
   const t = translations[language as keyof typeof translations];
 
   const cases = [
     {
+      id: 0,
       image: 'https://images.unsplash.com/photo-1628017973088-8feb5de8dddd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwc3RhcnR1cCUyMG9mZmljZXxlbnwxfHx8fDE3NjEyMTc4MTF8MA&ixlib=rb-4.1.0&q=80&w=1080',
       title: 'Digital Transformation',
       client: 'Tech Corporation',
@@ -42,6 +45,7 @@ export default function CasesPage({ language }: CasesPageProps) {
       description: 'Complete digital marketing transformation',
     },
     {
+      id: 1,
       image: 'https://images.unsplash.com/photo-1662393792373-52f5477094f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwYnJhbmQlMjBkZXNpZ258ZW58MXx8fHwxNzYxMjM0NTI1fDA&ixlib=rb-4.1.0&q=80&w=1080',
       title: 'Brand Redesign',
       client: 'Fashion Brand',
@@ -50,6 +54,7 @@ export default function CasesPage({ language }: CasesPageProps) {
       description: 'Full brand identity and communication strategy',
     },
     {
+      id: 2,
       image: 'https://images.unsplash.com/photo-1758686254082-0f91a27b3075?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBlY29tbWVyY2V8ZW58MXx8fHwxNzYxMjM0NTI1fDA&ixlib=rb-4.1.0&q=80&w=1080',
       title: 'E-commerce Platform',
       client: 'Retail Company',
@@ -58,6 +63,7 @@ export default function CasesPage({ language }: CasesPageProps) {
       description: 'Custom e-commerce platform development',
     },
     {
+      id: 3,
       image: 'https://images.unsplash.com/photo-1609921212029-bb5a28e60960?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBhcHAlMjBkZXNpZ258ZW58MXx8fHwxNzYxMjMwODAxfDA&ixlib=rb-4.1.0&q=80&w=1080',
       title: 'Mobile App',
       client: 'FinTech Startup',
@@ -66,6 +72,7 @@ export default function CasesPage({ language }: CasesPageProps) {
       description: 'Cross-platform mobile application',
     },
     {
+      id: 4,
       image: 'https://images.unsplash.com/photo-1758887249067-a32805351a72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwYnJhbmRpbmd8ZW58MXx8fHwxNzYxMTUyMzkxfDA&ixlib=rb-4.1.0&q=80&w=1080',
       title: 'Restaurant Chain',
       client: 'Food & Beverage',
@@ -74,6 +81,7 @@ export default function CasesPage({ language }: CasesPageProps) {
       description: 'Complete branding and marketing campaign',
     },
     {
+      id: 5,
       image: 'https://images.unsplash.com/photo-1621857093087-7daa85ab14a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3Jwb3JhdGUlMjB3ZWJzaXRlfGVufDF8fHx8MTc2MTE1NzAxMHww&ixlib=rb-4.1.0&q=80&w=1080',
       title: 'Corporate Website',
       client: 'International Corporation',
@@ -83,6 +91,27 @@ export default function CasesPage({ language }: CasesPageProps) {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-900">
       {/* Hero Section */}
@@ -91,7 +120,12 @@ export default function CasesPage({ language }: CasesPageProps) {
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center space-y-6 max-w-3xl mx-auto">
+          <motion.div 
+            className="text-center space-y-6 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <h1 className="text-5xl lg:text-6xl">
               <span className="bg-gradient-to-r from-[#A3132D] to-[#6B0D1E] bg-clip-text text-transparent">
                 {t.title}
@@ -100,18 +134,26 @@ export default function CasesPage({ language }: CasesPageProps) {
             <p className="text-gray-400 text-xl">
               {t.subtitle}
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Cases Grid */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div 
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {cases.map((caseItem, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl bg-gray-800 border border-gray-700 hover:border-[#A3132D] transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-900/20"
+                variants={itemVariants}
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+                className="group relative overflow-hidden rounded-2xl bg-gray-800 border border-gray-700 hover:border-[#A3132D] transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/20"
               >
                 {/* Image */}
                 <div className="relative h-64 overflow-hidden">
@@ -155,14 +197,19 @@ export default function CasesPage({ language }: CasesPageProps) {
                   </div>
 
                   {/* View Case Button */}
-                  <button className="w-full mt-4 py-3 bg-gray-900 border border-gray-700 rounded-lg hover:border-[#A3132D] hover:bg-gray-700 transition-all flex items-center justify-center space-x-2 group/btn">
+                  <motion.button 
+                    onClick={() => onCaseClick(caseItem.id)}
+                    className="w-full mt-4 py-3 bg-gray-900 border border-gray-700 rounded-lg hover:border-[#A3132D] hover:bg-gray-700 transition-all flex items-center justify-center space-x-2 group/btn"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
                     <span>{t.viewCase}</span>
                     <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
